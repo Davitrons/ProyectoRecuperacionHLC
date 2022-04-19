@@ -19,36 +19,43 @@ class Material
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @var string
      */
     private $nombre;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string|null
      */
     private $descripcion;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @var \DateTime|null
      */
     private $fechaHoraUltimoPrestamo;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @var \DateTime|null
      */
     private $fechaHoraUltimaDevolucion;
 
     /**
      * @ORM\Column(type="boolean")
+     * @var bool
      */
     private $disponible;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @var \DateTime|null
      */
     private $fechaAlta;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @var \DateTime|null
      */
     private $fechaBaja;
 

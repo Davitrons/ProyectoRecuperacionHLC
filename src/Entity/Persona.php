@@ -19,31 +19,37 @@ class Persona
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * @var string
      */
     private $nombreUsuario;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @var string
      */
     private $clave;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @var string
      */
     private $nombre;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @var string
      */
     private $apellidos;
 
     /**
      * @ORM\Column(type="boolean")
+     * @var bool
      */
     private $administrador;
 
     /**
      * @ORM\Column(type="boolean")
+     * @var bool
      */
     private $gestorPrestamos;
 

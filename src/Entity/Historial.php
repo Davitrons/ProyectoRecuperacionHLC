@@ -19,16 +19,19 @@ class Historial
 
     /**
      * @ORM\Column(type="datetime")
+     * @var \DateTime
      */
     private $fechaHoraPrestamo;
 
     /**
      * @ORM\Column(type="datetime")
+     * @var \DateTime
      */
     private $fechaHoraDevolucion;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string|null
      */
     private $notas;
 

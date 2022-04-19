@@ -19,16 +19,19 @@ class Localizacion
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @var string
      */
     private $codigo;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * @var string
      */
     private $nombre;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string|null
      */
     private $descripcion;
 
