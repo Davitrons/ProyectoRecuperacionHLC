@@ -21,29 +21,45 @@ class HistorialRepository extends ServiceEntityRepository
         parent::__construct($registry, Historial::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function add(Historial $entity, bool $flush = true): void
-    {
-        $this->_em->persist($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
+    public function create() : Historial{
+        $historial = new Historial();
+        $this->getEntityManager()->persist($historial);
+        return $historial;
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function remove(Historial $entity, bool $flush = true): void
+    public function save() : void
     {
-        $this->_em->remove($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
+        $this->getEntityManager()->flush();
     }
+
+    public function remove(Historial $historial) : void{
+        $this->getEntityManager()->remove($historial);
+        $this->save();
+    }
+
+//    /**
+//     * @throws ORMException
+//     * @throws OptimisticLockException
+//     */
+//    public function add(Historial $entity, bool $flush = true): void
+//    {
+//        $this->_em->persist($entity);
+//        if ($flush) {
+//            $this->_em->flush();
+//        }
+//    }
+//
+//    /**
+//     * @throws ORMException
+//     * @throws OptimisticLockException
+//     */
+//    public function remove(Historial $entity, bool $flush = true): void
+//    {
+//        $this->_em->remove($entity);
+//        if ($flush) {
+//            $this->_em->flush();
+//        }
+//    }
 
     // /**
     //  * @return Historial[] Returns an array of Historial objects
