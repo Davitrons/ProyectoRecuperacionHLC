@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PersonaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -52,6 +54,16 @@ class Persona
      * @var bool
      */
     private $gestorPrestamos;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Material", mappedBy="persona")
+     * @var ?Material[]|Collection
+     */
+    private $materiales;
+
+    public function __construct(){
+        $this->materiales = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -129,4 +141,23 @@ class Persona
 
         return $this;
     }
+
+    /**
+     * @return Material[]|Collection|null
+     */
+    public function getMateriales()
+    {
+        return $this->materiales;
+    }
+
+    /**
+     * @param Material[]|Collection|null $materiales
+     * @return Persona
+     */
+    public function setMateriales($materiales)
+    {
+        $this->materiales = $materiales;
+        return $this;
+    }
+
 }

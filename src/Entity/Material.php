@@ -86,6 +86,12 @@ class Material
      */
     private $historico;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Persona", inversedBy="materiales")
+     * @var ?Persona
+     */
+    private $persona;
+
     public function __construct(){
         $this->hijos = new ArrayCollection();
         $this->historico = new ArrayCollection();
@@ -249,6 +255,24 @@ class Material
     public function setHistorico($historico)
     {
         $this->historico = $historico;
+        return $this;
+    }
+
+    /**
+     * @return Persona|null
+     */
+    public function getPersona(): ?Persona
+    {
+        return $this->persona;
+    }
+
+    /**
+     * @param Persona|null $persona
+     * @return Material
+     */
+    public function setPersona(?Persona $persona): Material
+    {
+        $this->persona = $persona;
         return $this;
     }
 
