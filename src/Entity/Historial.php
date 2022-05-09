@@ -41,6 +41,27 @@ class Historial
      */
     private $material;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Persona")
+     * @ORM\JoinColumn(nullable=false)
+     * @var Persona
+     */
+    private $prestadoPor;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Persona")
+     * @ORM\JoinColumn(nullable=false)
+     * @var Persona
+     */
+    private $prestadoA;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Persona")
+     * @ORM\JoinColumn(nullable=false)
+     * @var Persona
+     */
+    private $devueltoPor;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -99,4 +120,59 @@ class Historial
         $this->material = $material;
         return $this;
     }
+
+    /**
+     * @return Persona
+     */
+    public function getPrestadoPor(): Persona
+    {
+        return $this->prestadoPor;
+    }
+
+    /**
+     * @param Persona $prestadoPor
+     * @return Historial
+     */
+    public function setPrestadoPor(Persona $prestadoPor): Historial
+    {
+        $this->prestadoPor = $prestadoPor;
+        return $this;
+    }
+
+    /**
+     * @return Persona
+     */
+    public function getPrestadoA(): Persona
+    {
+        return $this->prestadoA;
+    }
+
+    /**
+     * @param Persona $prestadoA
+     * @return Historial
+     */
+    public function setPrestadoA(Persona $prestadoA): Historial
+    {
+        $this->prestadoA = $prestadoA;
+        return $this;
+    }
+
+    /**
+     * @return Persona
+     */
+    public function getDevueltoPor(): Persona
+    {
+        return $this->devueltoPor;
+    }
+
+    /**
+     * @param Persona $devueltoPor
+     * @return Historial
+     */
+    public function setDevueltoPor(Persona $devueltoPor): Historial
+    {
+        $this->devueltoPor = $devueltoPor;
+        return $this;
+    }
+
 }
