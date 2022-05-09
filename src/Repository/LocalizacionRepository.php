@@ -21,29 +21,45 @@ class LocalizacionRepository extends ServiceEntityRepository
         parent::__construct($registry, Localizacion::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function add(Localizacion $entity, bool $flush = true): void
-    {
-        $this->_em->persist($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
+    public function create() : Localizacion{
+        $localizacion = new Localizacion();
+        $this->getEntityManager()->persist($localizacion);
+        return $localizacion;
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function remove(Localizacion $entity, bool $flush = true): void
+    public function save() : void
     {
-        $this->_em->remove($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
+        $this->getEntityManager()->flush();
     }
+
+    public function remove(Localizacion $localizacion) : void{
+        $this->getEntityManager()->remove($localizacion);
+        $this->save();
+    }
+
+//    /**
+//     * @throws ORMException
+//     * @throws OptimisticLockException
+//     */
+//    public function add(Localizacion $entity, bool $flush = true): void
+//    {
+//        $this->_em->persist($entity);
+//        if ($flush) {
+//            $this->_em->flush();
+//        }
+//    }
+//
+//    /**
+//     * @throws ORMException
+//     * @throws OptimisticLockException
+//     */
+//    public function remove(Localizacion $entity, bool $flush = true): void
+//    {
+//        $this->_em->remove($entity);
+//        if ($flush) {
+//            $this->_em->flush();
+//        }
+//    }
 
     // /**
     //  * @return Localizacion[] Returns an array of Localizacion objects
