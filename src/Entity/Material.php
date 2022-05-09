@@ -80,6 +80,11 @@ class Material
      */
     private $localizacion;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Historial", mappedBy="material")
+     */
+    private $historico;
+
     public function __construct(){
         $this->hijos = new ArrayCollection();
     }

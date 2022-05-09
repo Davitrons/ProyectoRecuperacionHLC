@@ -35,6 +35,12 @@ class Historial
      */
     private $notas;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Material", inversedBy="historico")
+     * @var Material
+     */
+    private $material;
+
     public function getId(): ?int
     {
         return $this->id;
