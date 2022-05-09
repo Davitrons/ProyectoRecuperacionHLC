@@ -92,6 +92,12 @@ class Material
      */
     private $persona;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Persona")
+     * @var ?Persona
+     */
+    private $prestadoPor;
+
     public function __construct(){
         $this->hijos = new ArrayCollection();
         $this->historico = new ArrayCollection();
@@ -273,6 +279,24 @@ class Material
     public function setPersona(?Persona $persona): Material
     {
         $this->persona = $persona;
+        return $this;
+    }
+
+    /**
+     * @return Persona|null
+     */
+    public function getPrestadoPor(): ?Persona
+    {
+        return $this->prestadoPor;
+    }
+
+    /**
+     * @param Persona|null $prestadoPor
+     * @return Material
+     */
+    public function setPrestadoPor(?Persona $prestadoPor): Material
+    {
+        $this->prestadoPor = $prestadoPor;
         return $this;
     }
 
