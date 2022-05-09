@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\MaterialRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -58,6 +59,21 @@ class Material
      * @var \DateTime|null
      */
     private $fechaBaja;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Material",inversedBy="hijos")
+     * @ORM\JoinColumn(nullable=true)
+     * @var ?Material
+     */
+    private $padre;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Material", mappedBy="padre")
+     * @var ?Material[]|Collection
+     */
+    private $hijos;
+
+
 
     public function getId(): ?int
     {
