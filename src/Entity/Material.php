@@ -73,7 +73,11 @@ class Material
      */
     private $hijos;
 
-
+    /**
+     * @ORM\ManyToOne(targetEntity="Localizacion", inversedBy="materiales")
+     * @var Localizacion
+     */
+    private $localizacion;
 
     public function getId(): ?int
     {

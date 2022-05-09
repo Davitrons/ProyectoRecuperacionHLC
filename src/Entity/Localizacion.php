@@ -49,6 +49,11 @@ class Localizacion
      */
     private $hijos;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Material", mappedBy="localizacion")
+     * @var ?Material[]|Collection
+     */
+    private $materiales;
 
     public function getId(): ?int
     {
