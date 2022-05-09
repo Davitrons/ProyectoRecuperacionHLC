@@ -82,11 +82,13 @@ class Material
 
     /**
      * @ORM\OneToMany(targetEntity="Historial", mappedBy="material")
+     * @var ?Historial[]|Collection
      */
     private $historico;
 
     public function __construct(){
         $this->hijos = new ArrayCollection();
+        $this->historico = new ArrayCollection();
     }
 
     public function getId(): ?int
