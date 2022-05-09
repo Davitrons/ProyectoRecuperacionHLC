@@ -21,29 +21,45 @@ class PersonaRepository extends ServiceEntityRepository
         parent::__construct($registry, Persona::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function add(Persona $entity, bool $flush = true): void
-    {
-        $this->_em->persist($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
+    public function create() : Persona{
+        $persona = new Persona();
+        $this->getEntityManager()->persist($persona);
+        return $persona;
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function remove(Persona $entity, bool $flush = true): void
+    public function save() : void
     {
-        $this->_em->remove($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
+        $this->getEntityManager()->flush();
     }
+
+    public function remove(Persona $persona) : void{
+        $this->getEntityManager()->remove($persona);
+        $this->save();
+    }
+
+//    /**
+//     * @throws ORMException
+//     * @throws OptimisticLockException
+//     */
+//    public function add(Persona $entity, bool $flush = true): void
+//    {
+//        $this->_em->persist($entity);
+//        if ($flush) {
+//            $this->_em->flush();
+//        }
+//    }
+//
+//    /**
+//     * @throws ORMException
+//     * @throws OptimisticLockException
+//     */
+//    public function remove(Persona $entity, bool $flush = true): void
+//    {
+//        $this->_em->remove($entity);
+//        if ($flush) {
+//            $this->_em->flush();
+//        }
+//    }
 
     // /**
     //  * @return Persona[] Returns an array of Persona objects
