@@ -167,4 +167,59 @@ class Material
 
         return $this;
     }
+
+    /**
+     * @return Material|null
+     */
+    public function getPadre(): ?Material
+    {
+        return $this->padre;
+    }
+
+    /**
+     * @param Material|null $padre
+     * @return Material
+     */
+    public function setPadre(?Material $padre): Material
+    {
+        $this->padre = $padre;
+        return $this;
+    }
+
+    /**
+     * @return Material[]|Collection|null
+     */
+    public function getHijos()
+    {
+        return $this->hijos;
+    }
+
+    /**
+     * @param Material[]|Collection|null $hijos
+     * @return Material
+     */
+    public function setHijos($hijos)
+    {
+        $this->hijos = $hijos;
+        return $this;
+    }
+
+    /**
+     * @return Localizacion
+     */
+    public function getLocalizacion(): Localizacion
+    {
+        return $this->localizacion;
+    }
+
+    /**
+     * @param Localizacion $localizacion
+     * @return Material
+     */
+    public function setLocalizacion(Localizacion $localizacion): Material
+    {
+        $this->localizacion = $localizacion;
+        return $this;
+    }
+
 }

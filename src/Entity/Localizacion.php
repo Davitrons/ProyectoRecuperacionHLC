@@ -95,4 +95,59 @@ class Localizacion
 
         return $this;
     }
+
+    /**
+     * @return Localizacion|null
+     */
+    public function getPadre(): ?Localizacion
+    {
+        return $this->padre;
+    }
+
+    /**
+     * @param Localizacion|null $padre
+     * @return Localizacion
+     */
+    public function setPadre(?Localizacion $padre): Localizacion
+    {
+        $this->padre = $padre;
+        return $this;
+    }
+
+    /**
+     * @return Localizacion[]|Collection|null
+     */
+    public function getHijos()
+    {
+        return $this->hijos;
+    }
+
+    /**
+     * @param Localizacion[]|Collection|null $hijos
+     * @return Localizacion
+     */
+    public function setHijos($hijos)
+    {
+        $this->hijos = $hijos;
+        return $this;
+    }
+
+    /**
+     * @return Material[]|Collection|null
+     */
+    public function getMateriales()
+    {
+        return $this->materiales;
+    }
+
+    /**
+     * @param Material[]|Collection|null $materiales
+     * @return Localizacion
+     */
+    public function setMateriales($materiales)
+    {
+        $this->materiales = $materiales;
+        return $this;
+    }
+
 }
