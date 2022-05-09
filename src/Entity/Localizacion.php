@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\LocalizacionRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,6 +35,20 @@ class Localizacion
      * @var string|null
      */
     private $descripcion;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Localizacion",inversedBy="hijos")
+     * @ORM\JoinColumn(nullable=true)
+     * @var ?Localizacion
+     */
+    private $padre;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Localizacion", mappedBy="padre")
+     * @var ?Localizacion[]|Collection
+     */
+    private $hijos;
+
 
     public function getId(): ?int
     {
