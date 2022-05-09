@@ -234,4 +234,22 @@ class Material
         return $this;
     }
 
+    /**
+     * @return Historial[]|Collection|null
+     */
+    public function getHistorico()
+    {
+        return $this->historico;
+    }
+
+    /**
+     * @param Historial[]|Collection|null $historico
+     * @return Material
+     */
+    public function setHistorico($historico)
+    {
+        $this->historico = $historico;
+        return $this;
+    }
+
 }

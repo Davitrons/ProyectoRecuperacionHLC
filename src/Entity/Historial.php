@@ -81,4 +81,22 @@ class Historial
 
         return $this;
     }
+
+    /**
+     * @return Material
+     */
+    public function getMaterial(): Material
+    {
+        return $this->material;
+    }
+
+    /**
+     * @param Material $material
+     * @return Historial
+     */
+    public function setMaterial(Material $material): Historial
+    {
+        $this->material = $material;
+        return $this;
+    }
 }
