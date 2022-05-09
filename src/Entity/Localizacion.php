@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\LocalizacionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -54,6 +55,12 @@ class Localizacion
      * @var ?Material[]|Collection
      */
     private $materiales;
+
+    public function __construct()
+    {
+        $this->hijos = new ArrayCollection();
+        $this->materiales = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
