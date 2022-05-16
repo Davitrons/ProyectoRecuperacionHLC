@@ -4,8 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Localizacion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +35,18 @@ class LocalizacionRepository extends ServiceEntityRepository
         $this->save();
     }
 
+    public function findAllLocalizaciones() : array{
+        return $this->createQueryBuilder('l')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findLocalizacionSinPadre() : array{
+        return $this->createQueryBuilder('l')
+            ->where('l.padre is NULL')
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @throws ORMException
 //     * @throws OptimisticLockException

@@ -14,14 +14,20 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('localizacion_listar')}}"><i class="fas fa-archive"></i> Inventario</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-arrows-alt-h"></i> Prestamos</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Prestamos
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Prestamos Actuales</a>
+                        <a class="dropdown-item" href="#">Historial de Prestamos</a>
+                    </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-location-arrow"></i> Localizaciones</a>
+                    <a class="nav-link" href="{{path('localizacion_sinpadre')}}"><i class="fas fa-location-arrow"></i> Localizaciones</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-users"></i> Personas</a>
+                    <a class="nav-link" href="{{path('personas_listado')}}"><i class="fas fa-users"></i> Personas</a>
                 </li>
             </ul>
         </div>

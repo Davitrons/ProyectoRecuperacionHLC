@@ -2,10 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Localizacion;
 use App\Entity\Material;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,21 +20,36 @@ class MaterialRepository extends ServiceEntityRepository
         parent::__construct($registry, Material::class);
     }
 
-    public function create() : Material{
-        $material = new Material();
-        $this->getEntityManager()->persist($material);
-        return $material;
+//    public function create() : Material{
+//        $material = new Material();
+//        $this->getEntityManager()->persist($material);
+//        return $material;
+//    }
+//
+//    public function save() : void
+//    {
+//        $this->getEntityManager()->flush();
+//    }
+//
+//    public function remove(Material $material) : void{
+//        $this->getEntityManager()->remove($material);
+//        $this->save();
+//    }
+
+    public function findbyLocalizacion(?Localizacion $localizacion) : array{
+        $qb = $this->createQueryBuilder('m');
+
+        if ($localizacion){
+            $qb
+                ->where('m.localizacion = :localizacion')
+                ->setParameter('localizacion', $localizacion);
+        }
+        return $qb
+            ->getQuery()
+            ->getResult();
     }
 
-    public function save() : void
-    {
-        $this->getEntityManager()->flush();
-    }
 
-    public function remove(Material $material) : void{
-        $this->getEntityManager()->remove($material);
-        $this->save();
-    }
 
 //    /**
 //     * @throws ORMException

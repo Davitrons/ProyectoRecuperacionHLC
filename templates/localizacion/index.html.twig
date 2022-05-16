@@ -34,7 +34,7 @@
                     {{ localizacion.descripcion }}
                 </td>
                 <td>
-                    <a href="" class="btn btn-sm btn-info"> <i class="fa fa-key"></i> Mostrar Materiales</a>
+                    <a href="{{ path('localizacion_materiales', { 'id': localizacion.id }) }}" class="btn btn-sm btn-info"> <i class="fa fa-th"></i> Mostrar Materiales</a>
                 </td>
             </tr>
         {% endfor %}
