@@ -41,4 +41,16 @@ class LocalizacionController extends AbstractController{
             'localizaciones' => $localizaciones
         ]);
     }
+
+    /**
+     * @Route("/hijas/{id}", name="localizaciones_hijas")
+     */
+    public function localizacionHijas(LocalizacionRepository $localizacionRepository, $id) : Response{
+        $localizacion = $localizacionRepository->findOneBy(array('id' => $id));
+        $localizaciones = $localizacionRepository->findLocalizacionesHijas($localizacion);
+        return $this->render('localizacion/hijas.html.twig', [
+            'localizaciones' => $localizaciones,
+            'localizacion' => $localizacion
+        ]);
+    }
 }

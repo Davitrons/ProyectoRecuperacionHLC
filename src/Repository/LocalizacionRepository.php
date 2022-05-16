@@ -47,6 +47,19 @@ class LocalizacionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findLocalizacionesHijas(?Localizacion $localizacion) : array{
+        $qb = $this->createQueryBuilder('h');
+
+        if ($localizacion){
+            $qb
+                ->where('h.padre = :localizacion')
+                ->setParameter('localizacion', $localizacion);
+        }
+        return $qb
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @throws ORMException
 //     * @throws OptimisticLockException
