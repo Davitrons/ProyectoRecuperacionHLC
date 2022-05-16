@@ -14,7 +14,6 @@ class PersonaController extends AbstractController{
      */
     public function index(PersonaRepository $personaRepository) : Response{
         $personas = $personaRepository->findUsariosOrdenadosApellidoNombreConMaterialResponsable();
-        dump($personas);
         return $this->render('persona/index.html.twig', [
             'personas' => $personas
         ]);
