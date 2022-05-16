@@ -70,6 +70,12 @@ class Persona
         return $this->id;
     }
 
+    public function __toString()
+    {
+        return $this->nombre . ' ' . $this->apellidos;
+    }
+
+
     public function getNombreUsuario(): ?string
     {
         return $this->nombreUsuario;

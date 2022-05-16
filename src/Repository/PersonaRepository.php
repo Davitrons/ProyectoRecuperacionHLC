@@ -2,10 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\Material;
 use App\Entity\Persona;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -35,6 +37,15 @@ class PersonaRepository extends ServiceEntityRepository
     public function remove(Persona $persona) : void{
         $this->getEntityManager()->remove($persona);
         $this->save();
+    }
+
+    public function findUsariosOrdenadosApellidoNombreConMaterialResponsable() :array{
+        return $this->createQueryBuilder('u')
+            ->innerJoin(Material::class, 'm', Join::WITH, 'u.id = m.responsable')
+            ->orderBy('u.apellidos', 'ASC')
+            ->addOrderBy('u.nombre', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

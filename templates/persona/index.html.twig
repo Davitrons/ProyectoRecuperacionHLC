@@ -1,0 +1,43 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Personas - {{ parent() }}{% endblock %}
+
+{% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ path('principal') }}"><i class="fa fa-briefcase"></i></a></li>
+            <li class="breadcrumb-item active" aria-current="page">Personas</li>
+        </ol>
+    </nav>
+
+    <h1>Listado de Personas</h1>
+
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th>Nombre completo</th>
+            <th>Nombre de usuario</th>
+            <th>Material Responsable</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for persona in personas %}
+            <tr>
+                <td>
+                    {{ persona }}
+                </td>
+                <td>
+                    {{ persona.nombreUsuario}}
+                </td>
+{#                <td>#}
+{#                    {{ persona.materiales}}#}
+{#                </td>#}
+
+{#                <td>#}
+{#                    <a href="{{path('localizacion_materiales', {'id': localizacion.id}) }}" class="btn btn-sm btn-info"> <i class="fa fa-key"></i> Mostrar Materiales</a>#}
+{#                </td>#}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
