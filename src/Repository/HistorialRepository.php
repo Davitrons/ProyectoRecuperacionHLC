@@ -3,10 +3,12 @@
 namespace App\Repository;
 
 use App\Entity\Historial;
+use App\Entity\Material;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use http\Env\Response;
 
 /**
  * @method Historial|null find($id, $lockMode = null, $lockVersion = null)
@@ -35,6 +37,20 @@ class HistorialRepository extends ServiceEntityRepository
     public function remove(Historial $historial) : void{
         $this->getEntityManager()->remove($historial);
         $this->save();
+    }
+
+    public function findHistorial(?Material $material) : array{
+        $qb = $this->createQueryBuilder('h');
+
+        if ($material){
+            $qb
+                ->where('h.material = :material')
+                ->orderBy('h.fechaHoraPrestamo' , 'ASC')
+                ->setParameter('material', $material);
+        }
+        return $qb
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

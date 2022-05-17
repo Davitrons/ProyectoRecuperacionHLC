@@ -57,6 +57,12 @@ class MaterialRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllMateriales() : array{
+        return $this->createQueryBuilder('m')
+            ->getQuery()
+            ->getResult();
+    }
+
 
 
 //    /**

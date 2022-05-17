@@ -1,0 +1,43 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Materiales - {{ parent() }}{% endblock %}
+
+{% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ path('principal') }}"><i class="fa fa-briefcase"></i></a></li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ path('material_listar') }}">Materiales</a></li>
+        </ol>
+    </nav>
+
+    <h1>Listado de Materiales</h1>
+
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Disponible</th>
+            <th>Fecha Alta</th>
+            <th>Fecha Baja</th>
+            <th>Fecha Ultimo prestamo</th>
+            <th>Fecha Ultima devolucion</th>
+            <th>Historial</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for material in materiales %}
+            <tr>
+                <td>{{ material.nombre }}</td>
+                <td>{{ material.descripcion }}</td>
+                <td>{{ material.disponible }}</td>
+                <td>{{ material.fechaAlta | date("d/m/Y") }}</td>
+                <td>{{ material.fechaBaja | date("d/m/Y") }}</td>
+                <td>{{ material.fechaHoraUltimoPrestamo | date("d/m/Y")}}</td>
+                <td>{{ material.fechaHoraUltimaDevolucion | date("d/m/Y")}}</td>
+                <td><a href="{{ path('material_historico', { 'id': material.id }) }}" class="btn btn-sm btn-info"> <i class="fa fa-th"></i> Mostrar Historial</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
