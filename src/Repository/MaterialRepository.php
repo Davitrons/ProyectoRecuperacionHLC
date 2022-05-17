@@ -49,6 +49,14 @@ class MaterialRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findMaterialesPrestados() : array{
+        return $this->createQueryBuilder('mp')
+            ->where('mp.disponible = 0')
+            ->orderBy('mp.fechaHoraUltimoPrestamo', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 
 
 //    /**
