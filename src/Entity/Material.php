@@ -21,92 +21,84 @@ class Material
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @var string
      */
     private $nombre;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @var string|null
+     * @ORM\Column(type="text", nullable=true)
      */
     private $descripcion;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $disponible;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $fechaAlta;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $fechaBaja;
+
+    /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @var \DateTime|null
      */
     private $fechaHoraUltimoPrestamo;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @var \DateTime|null
      */
     private $fechaHoraUltimaDevolucion;
 
     /**
-     * @ORM\Column(type="boolean")
-     * @var bool
-     */
-    private $disponible;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     * @var \DateTime|null
-     */
-    private $fechaAlta;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     * @var \DateTime|null
-     */
-    private $fechaBaja;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Material",inversedBy="hijos")
-     * @ORM\JoinColumn(nullable=true)
-     * @var ?Material
-     */
-    private $padre;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Material", mappedBy="padre")
-     * @var ?Material[]|Collection
-     */
-    private $hijos;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Localizacion", inversedBy="materiales")
-     * @var Localizacion
+     * @ORM\ManyToOne(targetEntity=Localizacion::class, inversedBy="materiales")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $localizacion;
 
     /**
-     * @ORM\OneToMany(targetEntity="Historial", mappedBy="material")
-     * @var ?Historial[]|Collection
-     */
-    private $historico;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Persona", inversedBy="materiales")
-     * @var ?Persona
+     * @ORM\ManyToOne(targetEntity=Persona::class, inversedBy="materiales")
      */
     private $persona;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Persona")
-     * @var ?Persona
+     * @ORM\ManyToOne(targetEntity=Persona::class)
      */
     private $prestadoPor;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Persona")
-     * @var ?Persona
+     * @ORM\ManyToOne(targetEntity=Persona::class)
      */
     private $responsable;
 
-    public function __construct(){
+    /**
+     * @ORM\ManyToOne(targetEntity=Material::class, inversedBy="hijos")
+     */
+    private $padre;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Material::class, mappedBy="padre")
+     */
+    private $hijos;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Historial::class, mappedBy="material")
+     */
+    private $historico;
+
+    public function __construct()
+    {
         $this->hijos = new ArrayCollection();
         $this->historico = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->nombre;
     }
 
     public function getId(): ?int
@@ -134,30 +126,6 @@ class Material
     public function setDescripcion(?string $descripcion): self
     {
         $this->descripcion = $descripcion;
-
-        return $this;
-    }
-
-    public function getFechaHoraUltimoPrestamo(): ?\DateTimeInterface
-    {
-        return $this->fechaHoraUltimoPrestamo;
-    }
-
-    public function setFechaHoraUltimoPrestamo(?\DateTimeInterface $fechaHoraUltimoPrestamo): self
-    {
-        $this->fechaHoraUltimoPrestamo = $fechaHoraUltimoPrestamo;
-
-        return $this;
-    }
-
-    public function getFechaHoraUltimaDevolucion(): ?\DateTimeInterface
-    {
-        return $this->fechaHoraUltimaDevolucion;
-    }
-
-    public function setFechaHoraUltimaDevolucion(?\DateTimeInterface $fechaHoraUltimaDevolucion): self
-    {
-        $this->fechaHoraUltimaDevolucion = $fechaHoraUltimaDevolucion;
 
         return $this;
     }
@@ -198,130 +166,147 @@ class Material
         return $this;
     }
 
-    /**
-     * @return Material|null
-     */
-    public function getPadre(): ?Material
+    public function getFechaHoraUltimoPrestamo(): ?\DateTimeInterface
     {
-        return $this->padre;
+        return $this->fechaHoraUltimoPrestamo;
     }
 
-    /**
-     * @param Material|null $padre
-     * @return Material
-     */
-    public function setPadre(?Material $padre): Material
+    public function setFechaHoraUltimoPrestamo(?\DateTimeInterface $fechaHoraUltimoPrestamo): self
     {
-        $this->padre = $padre;
+        $this->fechaHoraUltimoPrestamo = $fechaHoraUltimoPrestamo;
+
         return $this;
     }
 
-    /**
-     * @return Material[]|Collection|null
-     */
-    public function getHijos()
+    public function getFechaHoraUltimaDevolucion(): ?\DateTimeInterface
     {
-        return $this->hijos;
+        return $this->fechaHoraUltimaDevolucion;
     }
 
-    /**
-     * @param Material[]|Collection|null $hijos
-     * @return Material
-     */
-    public function setHijos($hijos)
+    public function setFechaHoraUltimaDevolucion(?\DateTimeInterface $fechaHoraUltimaDevolucion): self
     {
-        $this->hijos = $hijos;
+        $this->fechaHoraUltimaDevolucion = $fechaHoraUltimaDevolucion;
+
         return $this;
     }
 
-    /**
-     * @return Localizacion
-     */
-    public function getLocalizacion(): Localizacion
+    public function getLocalizacion(): ?Localizacion
     {
         return $this->localizacion;
     }
 
-    /**
-     * @param Localizacion $localizacion
-     * @return Material
-     */
-    public function setLocalizacion(Localizacion $localizacion): Material
+    public function setLocalizacion(?Localizacion $localizacion): self
     {
         $this->localizacion = $localizacion;
+
         return $this;
     }
 
-    /**
-     * @return Historial[]|Collection|null
-     */
-    public function getHistorico()
-    {
-        return $this->historico;
-    }
-
-    /**
-     * @param Historial[]|Collection|null $historico
-     * @return Material
-     */
-    public function setHistorico($historico)
-    {
-        $this->historico = $historico;
-        return $this;
-    }
-
-    /**
-     * @return Persona|null
-     */
     public function getPersona(): ?Persona
     {
         return $this->persona;
     }
 
-    /**
-     * @param Persona|null $persona
-     * @return Material
-     */
-    public function setPersona(?Persona $persona): Material
+    public function setPersona(?Persona $persona): self
     {
         $this->persona = $persona;
+
         return $this;
     }
 
-    /**
-     * @return Persona|null
-     */
     public function getPrestadoPor(): ?Persona
     {
         return $this->prestadoPor;
     }
 
-    /**
-     * @param Persona|null $prestadoPor
-     * @return Material
-     */
-    public function setPrestadoPor(?Persona $prestadoPor): Material
+    public function setPrestadoPor(?Persona $prestadoPor): self
     {
         $this->prestadoPor = $prestadoPor;
+
         return $this;
     }
 
-    /**
-     * @return Persona|null
-     */
     public function getResponsable(): ?Persona
     {
         return $this->responsable;
     }
 
-    /**
-     * @param Persona|null $responsable
-     * @return Material
-     */
-    public function setResponsable(?Persona $responsable): Material
+    public function setResponsable(?Persona $responsable): self
     {
         $this->responsable = $responsable;
+
         return $this;
     }
 
+    public function getPadre(): ?self
+    {
+        return $this->padre;
+    }
+
+    public function setPadre(?self $padre): self
+    {
+        $this->padre = $padre;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getHijos(): Collection
+    {
+        return $this->hijos;
+    }
+
+    public function addHijo(self $hijo): self
+    {
+        if (!$this->hijos->contains($hijo)) {
+            $this->hijos[] = $hijo;
+            $hijo->setPadre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHijo(self $hijo): self
+    {
+        if ($this->hijos->removeElement($hijo)) {
+            // set the owning side to null (unless already changed)
+            if ($hijo->getPadre() === $this) {
+                $hijo->setPadre(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Historial>
+     */
+    public function getHistorico(): Collection
+    {
+        return $this->historico;
+    }
+
+    public function addHistorico(Historial $historico): self
+    {
+        if (!$this->historico->contains($historico)) {
+            $this->historico[] = $historico;
+            $historico->setMaterial($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHistorico(Historial $historico): self
+    {
+        if ($this->historico->removeElement($historico)) {
+            // set the owning side to null (unless already changed)
+            if ($historico->getMaterial() === $this) {
+                $historico->setMaterial(null);
+            }
+        }
+
+        return $this;
+    }
 }

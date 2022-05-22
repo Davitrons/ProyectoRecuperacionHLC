@@ -20,39 +20,32 @@ class Localizacion
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @var string
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $codigo;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     * @var string
+     * @ORM\Column(type="string", length=255)
      */
     private $nombre;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @var string|null
+     * @ORM\Column(type="text", nullable=true)
      */
     private $descripcion;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Localizacion",inversedBy="hijos")
-     * @ORM\JoinColumn(nullable=true)
-     * @var ?Localizacion
+     * @ORM\ManyToOne(targetEntity=Localizacion::class, inversedBy="hijos")
      */
     private $padre;
 
     /**
-     * @ORM\OneToMany(targetEntity="Localizacion", mappedBy="padre")
-     * @var ?Localizacion[]|Collection
+     * @ORM\OneToMany(targetEntity=Localizacion::class, mappedBy="padre")
      */
     private $hijos;
 
     /**
-     * @ORM\OneToMany(targetEntity="Material", mappedBy="localizacion")
-     * @var ?Material[]|Collection
+     * @ORM\OneToMany(targetEntity=Material::class, mappedBy="localizacion")
      */
     private $materiales;
 
@@ -60,6 +53,23 @@ class Localizacion
     {
         $this->hijos = new ArrayCollection();
         $this->materiales = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->getCodigo() . ' - ' . $this->getNombre();
+    }
+
+    public function getRuta() : string
+    {
+        $ruta = $this->nombre;
+        $actual = $this->padre;
+        while ($actual !== null) {
+            $ruta = $actual->getNombre() . ' > ' . $ruta;
+            $actual = $actual->getPadre();
+        }
+
+        return $ruta;
     }
 
     public function getId(): ?int
@@ -103,58 +113,75 @@ class Localizacion
         return $this;
     }
 
-    /**
-     * @return Localizacion|null
-     */
-    public function getPadre(): ?Localizacion
+    public function getPadre(): ?self
     {
         return $this->padre;
     }
 
-    /**
-     * @param Localizacion|null $padre
-     * @return Localizacion
-     */
-    public function setPadre(?Localizacion $padre): Localizacion
+    public function setPadre(?self $padre): self
     {
         $this->padre = $padre;
+
         return $this;
     }
 
     /**
-     * @return Localizacion[]|Collection|null
+     * @return Collection<int, self>
      */
-    public function getHijos()
+    public function getHijos(): Collection
     {
         return $this->hijos;
     }
 
-    /**
-     * @param Localizacion[]|Collection|null $hijos
-     * @return Localizacion
-     */
-    public function setHijos($hijos)
+    public function addHijo(self $hijo): self
     {
-        $this->hijos = $hijos;
+        if (!$this->hijos->contains($hijo)) {
+            $this->hijos[] = $hijo;
+            $hijo->setPadre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHijo(self $hijo): self
+    {
+        if ($this->hijos->removeElement($hijo)) {
+            // set the owning side to null (unless already changed)
+            if ($hijo->getPadre() === $this) {
+                $hijo->setPadre(null);
+            }
+        }
+
         return $this;
     }
 
     /**
-     * @return Material[]|Collection|null
+     * @return Collection<int, Material>
      */
-    public function getMateriales()
+    public function getMateriales(): Collection
     {
         return $this->materiales;
     }
 
-    /**
-     * @param Material[]|Collection|null $materiales
-     * @return Localizacion
-     */
-    public function setMateriales($materiales)
+    public function addMateriale(Material $materiale): self
     {
-        $this->materiales = $materiales;
+        if (!$this->materiales->contains($materiale)) {
+            $this->materiales[] = $materiale;
+            $materiale->setLocalizacion($this);
+        }
+
         return $this;
     }
 
+    public function removeMateriale(Material $materiale): self
+    {
+        if ($this->materiales->removeElement($materiale)) {
+            // set the owning side to null (unless already changed)
+            if ($materiale->getLocalizacion() === $this) {
+                $materiale->setLocalizacion(null);
+            }
+        }
+
+        return $this;
+    }
 }

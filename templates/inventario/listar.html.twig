@@ -1,0 +1,32 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Inventario{% endblock %}
+
+{% block content %}
+    <h1>Seleccione localización</h1>
+
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th class="w-25">Código</th>
+            <th class="w-50">Nombre</th>
+            <th class="w-25">Materiales incluidos</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for localizacion in localizaciones %}
+            <tr>
+                {% if localizacion.materiales | length > 0 %}
+                    {% set url = path('inventario_material', { 'localizacion': localizacion.id }) %}
+                    <td><a href="{{ url }}">{{ localizacion.codigo }}</a></td>
+                    <td><a href="{{ url }}">{{ localizacion.ruta }}</a></td>
+                {% else %}
+                    <td>{{ localizacion.codigo }}</td>
+                    <td>{{ localizacion.nombre }}</td>
+                {% endif %}
+                <td>{{ localizacion.materiales | length }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

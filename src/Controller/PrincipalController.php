@@ -9,10 +9,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class PrincipalController extends AbstractController
 {
     /**
-     * @Route("/", name="principal")
+     * @Route("/", name="portada")
      */
-    public function bienvenida() : Response
+    public function index(): Response
     {
-        return $this->render('principal/bienvenida.html.twig');
+        return $this->render('portada/index.html.twig');
     }
 }

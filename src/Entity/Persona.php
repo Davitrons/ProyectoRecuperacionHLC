@@ -20,61 +20,54 @@ class Persona
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     * @var string
+     * @ORM\Column(type="string", length=255)
      */
     private $nombreUsuario;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @var string
      */
     private $clave;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @var string
      */
     private $nombre;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @var string
      */
     private $apellidos;
 
     /**
      * @ORM\Column(type="boolean")
-     * @var bool
      */
     private $administrador;
 
     /**
      * @ORM\Column(type="boolean")
-     * @var bool
      */
     private $gestorPrestamos;
 
     /**
-     * @ORM\OneToMany(targetEntity="Material", mappedBy="persona")
-     * @var ?Material[]|Collection
+     * @ORM\OneToMany(targetEntity=Material::class, mappedBy="persona")
      */
     private $materiales;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->materiales = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->getNombre() . ' ' . $this->getApellidos();
     }
 
     public function getId(): ?int
     {
         return $this->id;
     }
-
-    public function __toString()
-    {
-        return $this->nombre . ' ' . $this->apellidos;
-    }
-
 
     public function getNombreUsuario(): ?string
     {
@@ -149,21 +142,32 @@ class Persona
     }
 
     /**
-     * @return Material[]|Collection|null
+     * @return Collection<int, Material>
      */
-    public function getMateriales()
+    public function getMateriales(): Collection
     {
         return $this->materiales;
     }
 
-    /**
-     * @param Material[]|Collection|null $materiales
-     * @return Persona
-     */
-    public function setMateriales($materiales)
+    public function addMateriale(Material $materiale): self
     {
-        $this->materiales = $materiales;
+        if (!$this->materiales->contains($materiale)) {
+            $this->materiales[] = $materiale;
+            $materiale->setPersona($this);
+        }
+
         return $this;
     }
 
+    public function removeMateriale(Material $materiale): self
+    {
+        if ($this->materiales->removeElement($materiale)) {
+            // set the owning side to null (unless already changed)
+            if ($materiale->getPersona() === $this) {
+                $materiale->setPersona(null);
+            }
+        }
+
+        return $this;
+    }
 }

@@ -1,0 +1,30 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Listado de personas{% endblock %}
+
+{% block content %}
+    <h1>Listado de personas</h1>
+
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th class="w-50">Nombre</th>
+                <th class="w-25">Usuario</th>
+                <th class="w-25">Responsable de</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for persona in personas %}
+            <tr>
+                <td>
+                    {{ persona.apellidos }}, {{ persona.nombre }}
+                    {% if persona.administrador %}<i class="fa fa-user-cog" title="Administrador"></i>{% endif %}
+                    {% if persona.gestorPrestamos %}<i class="fa fa-user-tag" title="Gestor de préstamos"></i>{% endif %}
+                </td>
+                <td>{{ persona.nombreUsuario }}</td>
+                <td>{{ persona.materiales | join(', ') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

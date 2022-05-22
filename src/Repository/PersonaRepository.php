@@ -2,15 +2,16 @@
 
 namespace App\Repository;
 
-use App\Entity\Material;
 use App\Entity\Persona;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
+ * @extends ServiceEntityRepository<Persona>
+ *
  * @method Persona|null find($id, $lockMode = null, $lockVersion = null)
  * @method Persona|null findOneBy(array $criteria, array $orderBy = null)
  * @method Persona[]    findAll()
@@ -23,54 +24,29 @@ class PersonaRepository extends ServiceEntityRepository
         parent::__construct($registry, Persona::class);
     }
 
-    public function create() : Persona{
-        $persona = new Persona();
-        $this->getEntityManager()->persist($persona);
-        return $persona;
-    }
-
-    public function save() : void
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function add(Persona $entity, bool $flush = true): void
     {
-        $this->getEntityManager()->flush();
+        $this->_em->persist($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
     }
 
-    public function remove(Persona $persona) : void{
-        $this->getEntityManager()->remove($persona);
-        $this->save();
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function remove(Persona $entity, bool $flush = true): void
+    {
+        $this->_em->remove($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
     }
-
-    public function findUsariosOrdenadosApellidoNombreConMaterialResponsable() :array{
-        return $this->createQueryBuilder('u')
-            ->innerJoin(Material::class, 'm', Join::WITH, 'u.id = m.responsable')
-            ->orderBy('u.apellidos', 'ASC')
-            ->addOrderBy('u.nombre', 'ASC')
-            ->getQuery()
-            ->getResult();
-    }
-
-//    /**
-//     * @throws ORMException
-//     * @throws OptimisticLockException
-//     */
-//    public function add(Persona $entity, bool $flush = true): void
-//    {
-//        $this->_em->persist($entity);
-//        if ($flush) {
-//            $this->_em->flush();
-//        }
-//    }
-//
-//    /**
-//     * @throws ORMException
-//     * @throws OptimisticLockException
-//     */
-//    public function remove(Persona $entity, bool $flush = true): void
-//    {
-//        $this->_em->remove($entity);
-//        if ($flush) {
-//            $this->_em->flush();
-//        }
-//    }
 
     // /**
     //  * @return Persona[] Returns an array of Persona objects
@@ -100,4 +76,18 @@ class PersonaRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @return Persona[]|Collection
+     */
+    final public function findSortedByApellidosAndNombre()
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p, m')
+            ->leftJoin('p.materiales', 'm')
+            ->orderBy('p.apellidos')
+            ->addOrderBy('p.nombre')
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -18,53 +18,95 @@ class Historial
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity=Material::class, inversedBy="historico")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $material;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Persona::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $prestadoA;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Persona::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $prestadoPor;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Persona::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $devueltoPor;
+
+    /**
      * @ORM\Column(type="datetime")
-     * @var \DateTime
      */
     private $fechaHoraPrestamo;
 
     /**
      * @ORM\Column(type="datetime")
-     * @var \DateTime
      */
     private $fechaHoraDevolucion;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @var string|null
+     * @ORM\Column(type="text", nullable=true)
      */
     private $notas;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Material", inversedBy="historico")
-     * @var Material
-     */
-    private $material;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Persona")
-     * @ORM\JoinColumn(nullable=false)
-     * @var Persona
-     */
-    private $prestadoPor;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Persona")
-     * @ORM\JoinColumn(nullable=false)
-     * @var Persona
-     */
-    private $prestadoA;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Persona")
-     * @ORM\JoinColumn(nullable=false)
-     * @var Persona
-     */
-    private $devueltoPor;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getMaterial(): ?Material
+    {
+        return $this->material;
+    }
+
+    public function setMaterial(?Material $material): self
+    {
+        $this->material = $material;
+
+        return $this;
+    }
+
+    public function getPrestadoA(): ?Persona
+    {
+        return $this->prestadoA;
+    }
+
+    public function setPrestadoA(?Persona $prestadoA): self
+    {
+        $this->prestadoA = $prestadoA;
+
+        return $this;
+    }
+
+    public function getPrestadoPor(): ?Persona
+    {
+        return $this->prestadoPor;
+    }
+
+    public function setPrestadoPor(?Persona $prestadoPor): self
+    {
+        $this->prestadoPor = $prestadoPor;
+
+        return $this;
+    }
+
+    public function getDevueltoPor(): ?Persona
+    {
+        return $this->devueltoPor;
+    }
+
+    public function setDevueltoPor(?Persona $devueltoPor): self
+    {
+        $this->devueltoPor = $devueltoPor;
+
+        return $this;
     }
 
     public function getFechaHoraPrestamo(): ?\DateTimeInterface
@@ -102,77 +144,4 @@ class Historial
 
         return $this;
     }
-
-    /**
-     * @return Material
-     */
-    public function getMaterial(): Material
-    {
-        return $this->material;
-    }
-
-    /**
-     * @param Material $material
-     * @return Historial
-     */
-    public function setMaterial(Material $material): Historial
-    {
-        $this->material = $material;
-        return $this;
-    }
-
-    /**
-     * @return Persona
-     */
-    public function getPrestadoPor(): Persona
-    {
-        return $this->prestadoPor;
-    }
-
-    /**
-     * @param Persona $prestadoPor
-     * @return Historial
-     */
-    public function setPrestadoPor(Persona $prestadoPor): Historial
-    {
-        $this->prestadoPor = $prestadoPor;
-        return $this;
-    }
-
-    /**
-     * @return Persona
-     */
-    public function getPrestadoA(): Persona
-    {
-        return $this->prestadoA;
-    }
-
-    /**
-     * @param Persona $prestadoA
-     * @return Historial
-     */
-    public function setPrestadoA(Persona $prestadoA): Historial
-    {
-        $this->prestadoA = $prestadoA;
-        return $this;
-    }
-
-    /**
-     * @return Persona
-     */
-    public function getDevueltoPor(): Persona
-    {
-        return $this->devueltoPor;
-    }
-
-    /**
-     * @param Persona $devueltoPor
-     * @return Historial
-     */
-    public function setDevueltoPor(Persona $devueltoPor): Historial
-    {
-        $this->devueltoPor = $devueltoPor;
-        return $this;
-    }
-
 }

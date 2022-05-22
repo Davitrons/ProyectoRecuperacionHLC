@@ -2,32 +2,27 @@
 
 {% block body %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="{{ path('principal')}}"><i class="fa fa-briefcase"></i> GreCo</a>
+        <a class="navbar-brand" href="{{ path('portada') }}"><i class="fa fa-boxes"></i> GreCO</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        {% set route_name = app.request.get('_route') %}
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ path('principal')}}"><i class="fa fa-home"></i> Inicio <span class="sr-only">(current)</span></a>
+                <li class="nav-item {% if route_name == 'portada' %}active{% endif %}">
+                    <a class="nav-link" href="{{ path('portada') }}"><i class="fa fa-home"></i> Inicio</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('localizacion_listar')}}"><i class="fas fa-archive"></i> Inventario</a>
+                <li class="nav-item {% if route_name starts with 'inventario' %}active{% endif %}">
+                    <a class="nav-link" href="{{ path('inventario_listar') }}"><i class="fa fa-clipboard-list"></i> Inventario</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Prestamos
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href={{ path('material_prestado')}}>Prestamos Actuales</a>
-                        <a class="dropdown-item" href={{ path('material_listar') }}>Historial de Prestamos</a>
-                    </div>
+                <li class="nav-item {% if route_name starts with 'prestamo' %}active{% endif %}">
+                    <a class="nav-link" href=""><i class="fa fa-gift"></i> Préstamo</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{path('localizacion_sinpadre')}}"><i class="fas fa-location-arrow"></i> Localizaciones</a>
+                <li class="nav-item {% if route_name starts with 'localizacion' %}active{% endif %}">
+                    <a class="nav-link" href="{{ path('localizacion_listar') }}"><i class="fa fa-grip-vertical"></i> Localizaciones</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{path('personas_listado')}}"><i class="fas fa-users"></i> Personas</a>
+                <li class="nav-item {% if route_name starts with 'persona' %}active{% endif %}">
+                    <a class="nav-link" href="{{ path('persona_listar') }}"><i class="fa fa-users"></i> Personas</a>
                 </li>
             </ul>
         </div>

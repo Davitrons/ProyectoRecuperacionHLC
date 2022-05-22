@@ -1,0 +1,39 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Listado de localizaciones{% endblock %}
+
+{% block content %}
+    <h1>Localizaciones{% if raiz %} en {{ raiz }}{% endif %}</h1>
+
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th class="w-25">Código</th>
+            <th class="w-25">Nombre</th>
+            <th class="w-50">Descripción</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for localizacion in localizaciones %}
+            <tr>
+                {% if localizacion.hijos | length > 0 %}
+                    {% set url = path('localizacion_listar', { 'raiz': localizacion.id }) %}
+                    <td><a href="{{ url }}">{{ localizacion.codigo }}</a></td>
+                    <td><a href="{{ url }}">{{ localizacion.nombre }}</a></td>
+                {% else %}
+                    <td>{{ localizacion.codigo }}</td>
+                    <td>{{ localizacion.nombre }}</td>
+                {% endif %}
+                <td>{{ localizacion.descripcion | nl2br }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if raiz %}
+        {% if raiz.padre %}
+            <a href="{{ path('localizacion_listar', {'raiz': raiz.padre.id}) }}" class="btn btn-info"><i class="fa fa-arrow-left"></i> Volver a {{ raiz.padre }}</a>
+        {% else %}
+            <a href="{{ path('localizacion_listar') }}" class="btn btn-info"><i class="fa fa-arrow-left"></i> Volver al inicio</a>
+        {% endif %}
+    {% endif %}
+{% endblock %}

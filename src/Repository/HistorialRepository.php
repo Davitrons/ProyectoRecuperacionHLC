@@ -3,14 +3,14 @@
 namespace App\Repository;
 
 use App\Entity\Historial;
-use App\Entity\Material;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
-use http\Env\Response;
 
 /**
+ * @extends ServiceEntityRepository<Historial>
+ *
  * @method Historial|null find($id, $lockMode = null, $lockVersion = null)
  * @method Historial|null findOneBy(array $criteria, array $orderBy = null)
  * @method Historial[]    findAll()
@@ -23,59 +23,29 @@ class HistorialRepository extends ServiceEntityRepository
         parent::__construct($registry, Historial::class);
     }
 
-    public function create() : Historial{
-        $historial = new Historial();
-        $this->getEntityManager()->persist($historial);
-        return $historial;
-    }
-
-    public function save() : void
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function add(Historial $entity, bool $flush = true): void
     {
-        $this->getEntityManager()->flush();
-    }
-
-    public function remove(Historial $historial) : void{
-        $this->getEntityManager()->remove($historial);
-        $this->save();
-    }
-
-    public function findHistorial(?Material $material) : array{
-        $qb = $this->createQueryBuilder('h');
-
-        if ($material){
-            $qb
-                ->where('h.material = :material')
-                ->orderBy('h.fechaHoraPrestamo' , 'ASC')
-                ->setParameter('material', $material);
+        $this->_em->persist($entity);
+        if ($flush) {
+            $this->_em->flush();
         }
-        return $qb
-            ->getQuery()
-            ->getResult();
     }
 
-//    /**
-//     * @throws ORMException
-//     * @throws OptimisticLockException
-//     */
-//    public function add(Historial $entity, bool $flush = true): void
-//    {
-//        $this->_em->persist($entity);
-//        if ($flush) {
-//            $this->_em->flush();
-//        }
-//    }
-//
-//    /**
-//     * @throws ORMException
-//     * @throws OptimisticLockException
-//     */
-//    public function remove(Historial $entity, bool $flush = true): void
-//    {
-//        $this->_em->remove($entity);
-//        if ($flush) {
-//            $this->_em->flush();
-//        }
-//    }
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function remove(Historial $entity, bool $flush = true): void
+    {
+        $this->_em->remove($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
+    }
 
     // /**
     //  * @return Historial[] Returns an array of Historial objects
