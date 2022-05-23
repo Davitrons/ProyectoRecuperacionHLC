@@ -1,0 +1,24 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Modificar Localizacion{% endblock %}
+
+{% block content %}
+    {% if localizacion.id %}
+        <h1>Modificando a {{ localizacion }}</h1>
+    {% else %}
+        <h1>Nueva Localizacion</h1>
+    {% endif %}
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-success">
+        {% if  localizacion.id %}
+            <i class="fa fa-check"></i> Guardar cambios
+        {% else %}
+            <i class="fa fa-plus"></i> Crear nueva Localizacion
+        {% endif %}
+    </button>
+    <a href="{{ path('localizacion_listar') }}" class="btn btn-info"><i class="fa fa-arrow-left"></i> Volver al listado</a>
+    {{ form_end(form) }}
+
+{% endblock %}

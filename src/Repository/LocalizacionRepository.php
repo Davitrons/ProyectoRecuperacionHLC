@@ -48,6 +48,25 @@ class LocalizacionRepository extends ServiceEntityRepository
         }
     }
 
+    public function create() : Localizacion
+    {
+        $localizacion = new Localizacion();
+        $this->getEntityManager()->persist($localizacion);
+
+        return $localizacion;
+    }
+
+    public function save() : void
+    {
+        $this->getEntityManager()->flush();
+    }
+
+    public function delete(Localizacion $localizacion) : void
+    {
+        $this->getEntityManager()->remove($localizacion);
+        $this->save();
+    }
+
     // /**
     //  * @return Localizacion[] Returns an array of Localizacion objects
     //  */
