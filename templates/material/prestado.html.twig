@@ -1,0 +1,34 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Préstamos{% endblock %}
+
+{% block content %}
+    <h1>Material prestado</h1>
+
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th class="w-25">Nombre</th>
+            <th class="w-50">Descripcion</th>
+            <th class="w-25">Prestado a</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for material in materiales %}
+            <tr>
+                <td>
+                    {% if not material.disponible %}<del>{% endif %}
+                        {{ material.nombre }}
+                        {% if not material.disponible %}</del>{% endif %}
+                </td>
+                <td>{{ material.descripcion | nl2br }}</td>
+                <td>{{ material.persona }}, {{ material.fechaHoraUltimoPrestamo | date('d/m/Y H:i') }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">No hay materiales prestados</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

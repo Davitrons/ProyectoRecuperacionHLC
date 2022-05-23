@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Historial;
+use App\Entity\Material;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -75,4 +76,13 @@ class HistorialRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findByMaterial(Material $material)
+    {
+        return $this->createQueryBuilder('h')
+            ->where('h.material = :material')
+            ->setParameter('material', $material)
+            ->orderBy('h.fechaHoraPrestamo', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -85,4 +85,22 @@ class MaterialRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findPrestados()
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.persona IS NOT NULL')
+            ->orderBy('m.fechaHoraUltimoPrestamo', 'DESC')
+            ->addOrderBy('m.nombre')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findOrdenados()
+    {
+        return $this->createQueryBuilder('m')
+            ->addOrderBy('m.nombre')
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -1,0 +1,33 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Préstamos{% endblock %}
+
+{% block content %}
+    <h1>Historial de {{ material }}</h1>
+
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th class="w-25">Fecha/hora préstamo</th>
+            <th class="w-25">Fecha/hora devolución</th>
+            <th class="w-25">Prestado a</th>
+            <th class="w-25">Prestado por</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for historia in historial %}
+            <tr>
+                <td>{{ historia.fechaHoraPrestamo | date('d/m/Y H:i') }}</td>
+                <td>{{ historia.fechaHoraDevolucion | date('d/m/Y H:i') }}</td>
+                <td>{{ historia.prestadoA }}</td>
+                <td>{{ historia.prestadoPor }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">No hay ningún prestamo en el histórico</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('prestamo_listado_historial') }}" class="btn btn-info"><i class="fa fa-arrow-left"></i> Volver al listado de material</a>
+{% endblock %}

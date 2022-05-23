@@ -15,8 +15,14 @@
                 <li class="nav-item {% if route_name starts with 'inventario' %}active{% endif %}">
                     <a class="nav-link" href="{{ path('inventario_listar') }}"><i class="fa fa-clipboard-list"></i> Inventario</a>
                 </li>
-                <li class="nav-item {% if route_name starts with 'prestamo' %}active{% endif %}">
-                    <a class="nav-link" href=""><i class="fa fa-gift"></i> Préstamo</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarInventario" role="button" data-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-gift"></i> Préstamos</a>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarInventario">
+                        <a class="dropdown-item" href="{{ path('prestamo_material_prestado') }}">Material prestado</a>
+                        <a class="dropdown-item" href="{{ path('prestamo_listado_historial') }}">Historial</a>
+                    </div>
                 </li>
                 <li class="nav-item {% if route_name starts with 'localizacion' %}active{% endif %}">
                     <a class="nav-link" href="{{ path('localizacion_listar') }}"><i class="fa fa-grip-vertical"></i> Localizaciones</a>
