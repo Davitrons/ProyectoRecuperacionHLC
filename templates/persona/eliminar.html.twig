@@ -1,0 +1,19 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Eliminar Persona
+{% endblock %}
+
+
+{% block content %}
+    <h1>Eliminación de {{ persona }}</h1>
+
+    <div class="alert alert-danger">
+        ¡Atención! Se dispone a eliminar a {{ persona }}. Esta operación
+        no se puede deshacer.
+    </div>
+    <form method="post">
+        <button type="submit" name="confirmar" value="si" class="btn btn-danger"><i class="fa fa-trash-alt"></i> Eliminar definitivamente</button>
+        <a href="{{ path('persona_listar') }}" class="btn btn-info"><i class="fa fa-arrow-left"></i> Volver al listado sin eliminar</a>
+    </form>
+{% endblock %}

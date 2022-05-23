@@ -48,6 +48,25 @@ class PersonaRepository extends ServiceEntityRepository
         }
     }
 
+    public function create() : Persona
+    {
+        $persona = new Persona();
+        $this->getEntityManager()->persist($persona);
+
+        return $persona;
+    }
+
+    public function save() : void
+    {
+        $this->getEntityManager()->flush();
+    }
+
+    public function delete(Persona $persona) : void
+    {
+        $this->getEntityManager()->remove($persona);
+        $this->save();
+    }
+
     // /**
     //  * @return Persona[] Returns an array of Persona objects
     //  */
