@@ -34,6 +34,16 @@
         </div>
     </nav>
     <div class="container">
+        {% for mensaje in app.flashes('error') %}
+            <div  class="alert alert-danger alert-dismissible">
+                {{ mensaje }}
+            </div>
+        {% endfor %}
+        {% for mensaje in app.flashes('exito') %}
+            <div class="alert alert-success alert-dismissible">
+                {{ mensaje }}
+            </div>
+        {% endfor %}
         {% block content %}{% endblock %}
     </div>
 {% endblock %}

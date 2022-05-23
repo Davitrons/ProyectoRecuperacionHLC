@@ -1,0 +1,24 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Modificar Material{% endblock %}
+
+{% block content %}
+    {% if material.id %}
+        <h1>Modificando a {{ material }}</h1>
+    {% else %}
+        <h1>Nuevo Material</h1>
+    {% endif %}
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-success">
+        {% if  material.id %}
+            <i class="fa fa-check"></i> Guardar cambios
+        {% else %}
+            <i class="fa fa-plus"></i> Crear nuevo Material
+        {% endif %}
+    </button>
+    <a href="{{ path('prestamo_listado_historial') }}" class="btn btn-info"><i class="fa fa-arrow-left"></i> Volver al listado</a>
+    {{ form_end(form) }}
+
+{% endblock %}

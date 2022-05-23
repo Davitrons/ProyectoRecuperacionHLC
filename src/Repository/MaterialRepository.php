@@ -48,6 +48,25 @@ class MaterialRepository extends ServiceEntityRepository
         }
     }
 
+    public function create() : Material
+    {
+        $material = new Material();
+        $this->getEntityManager()->persist($material);
+
+        return $material;
+    }
+
+    public function save() : void
+    {
+        $this->getEntityManager()->flush();
+    }
+
+    public function delete(Material $material) : void
+    {
+        $this->getEntityManager()->remove($material);
+        $this->save();
+    }
+
     // /**
     //  * @return Material[] Returns an array of Material objects
     //  */
