@@ -27,14 +27,19 @@ class LocalizacionController extends AbstractController
     /**
      * @Route("/localizacion/nuevo", name="localizacion_nuevo")
      */
-    public function nuevaPersona(Request $request, LocalizacionRepository $localizacionRepository) : Response
+    public function nuevaLocalizacion(Request $request, LocalizacionRepository $localizacionRepository) : Response
     {
         $localizacion = $localizacionRepository->create();
         $form = $this->createForm(LocalizacionType::class, $localizacion);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $localizacionRepository->save();
-            return $this->redirectToRoute('localizacion_listar');
+            try {
+                $localizacionRepository->save();
+                $this->addFlash('exito', 'Se ha creado una nueva Localizacion');
+                return $this->redirectToRoute('localizacion_listar');
+            } catch (\Exception $exception) {
+                $this->addFlash('error', 'Error al crear...');
+            }
         }
         return $this->render('localizacion/form.html.twig', [
             'localizacion' => $localizacion,

@@ -32,8 +32,13 @@ class PersonaController extends AbstractController
         $form = $this->createForm(PersonaType::class, $persona);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $personaRepository->save();
-            return $this->redirectToRoute('persona_listar');
+            try{
+                $personaRepository->save();
+                $this->addFlash('exito', 'Se ha creado una nueva Persona');
+                return $this->redirectToRoute('persona_listar');
+            } catch (\Exception $exception) {
+                $this->addFlash('error', 'Error al crear...');
+            }
         }
         return $this->render('persona/form.html.twig', [
             'persona' => $persona,
