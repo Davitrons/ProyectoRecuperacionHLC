@@ -30,6 +30,11 @@
                 <li class="nav-item {% if route_name starts with 'persona' %}active{% endif %}">
                     <a class="nav-link" href="{{ path('persona_listar') }}"><i class="fa fa-users"></i> Personas</a>
                 </li>
+                {% if app.user %}
+                    <a href="{{ path('seguridad_logout') }}" class="nav-link"><i class="fas fa-sign-out-alt"></i> Conectado como {{ app.user }}. Salir</a>
+                {% else %}
+                    <a href="{{ path('seguridad_login') }}" class="nav-link"><i class="fas fa-sign-in-alt"></i> Entrar</a>
+                {% endif %}
             </ul>
         </div>
     </nav>
