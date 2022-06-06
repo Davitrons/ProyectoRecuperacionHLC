@@ -6,11 +6,12 @@ use App\Repository\PersonaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=PersonaRepository::class)
  */
-class Persona
+class Persona  implements UserInterface
 {
     /**
      * @ORM\Id
@@ -169,5 +170,41 @@ class Persona
         }
 
         return $this;
+    }
+
+    public function getRoles()
+    {
+        $roles = [
+            'ROLE_USUARIO'
+        ];
+
+        if ($this->getAdministrador()){
+            $roles[]='ROLE_ADMINISTRADOR';
+        }
+
+        if ($this->getGestorPrestamos()){
+            $roles[]='ROLE_GESTOR_PRESTAMOS';
+        }
+
+        return $roles;
+    }
+
+    public function getPassword()
+    {
+        return $this->getClave();
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getUsername()
+    {
+        return $this->getNombreUsuario();
+    }
+
+    public function eraseCredentials()
+    {
     }
 }
