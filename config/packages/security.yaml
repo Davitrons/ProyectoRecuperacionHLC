@@ -5,14 +5,12 @@ security:
             entity:
                 class: 'App\Entity\Persona'
                 property: nombreUsuario
-            encoders:
-                # plaintext para que al escribir la contraseña sea con el texto tal cual.
-                # bcrypt la contraseña va encriptada
-                App\Entity\Persona: bcrypt
-            role_hierarchy:
-                ROLE_USUARIO: [ ROLE_USUARIO ]
-                ROLE_GESTOR_PRESTAMOS: [ ROLE_USUARIO ]
-                ROLE_ADMINISTRADOR: [ ROLE_GESTOR_PRESTAMOS ]
+    encoders:
+        App\Entity\Persona: plaintext
+    role_hierarchy:
+        ROLE_USUARIO: [ ROLE_USUARIO ]
+        ROLE_GESTOR_PRESTAMOS: [ ROLE_USUARIO ]
+        ROLE_ADMINISTRADOR: [ ROLE_GESTOR_PRESTAMOS ]
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/

@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Persona;
+use App\Form\ClavePersonaType;
 use App\Form\PersonaType;
 use App\Repository\PersonaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class PersonaController extends AbstractController
 {
@@ -87,4 +89,33 @@ class PersonaController extends AbstractController
             'persona' => $persona
         ]);
     }
+
+    /**
+     * @Route("/clave", name="persona_clave")
+     */
+    public function cambiarClavePersona(Request $request, PersonaRepository $personaRepository, UserPasswordEncoderInterface $passwordEncoder): Response{
+        $form = $this->createForm(ClavePersonaType::class, $this->getUser());
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $this->getUser()->setClave(
+                    $passwordEncoder->encodePassword(
+                        $this->getUser(), $form->get('nuevaClave')->get('first')->getData()
+                    )
+                );
+                $personaRepository->save();
+                $this->addFlash('exito', 'La contraseña se ha guardado con éxito');
+                return $this->redirectToRoute('persona_listar');
+            }catch (\Exception $e){
+                $this->addFlash('error', 'Hubo un error con las contraseñas');
+            }
+        }
+        return $this->render('persona/clave.html.twig', [
+            'persona' => $this->getUser() ,
+            'form' => $form->createView()
+        ]);
+    }
+
+
 }

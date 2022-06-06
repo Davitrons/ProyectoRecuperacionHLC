@@ -1,0 +1,15 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Cambiando contraseña{% endblock %}
+
+{% block content %}
+    <h1>Cambiando contraseña a {{ persona }}</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar cambios</button>
+
+    <a href="{{ path('persona_listar') }}" class="btn btn-info"><i class="fa fa-arrow-left"></i> Volver al listado</a>
+    {{ form_end(form) }}
+
+{% endblock %}
