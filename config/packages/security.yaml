@@ -6,7 +6,9 @@ security:
                 class: 'App\Entity\Persona'
                 property: nombreUsuario
             encoders:
-                App\Entity\Persona: plaintext
+                # plaintext para que al escribir la contraseña sea con el texto tal cual.
+                # bcrypt la contraseña va encriptada
+                App\Entity\Persona: bcrypt
             role_hierarchy:
                 ROLE_USUARIO: [ ROLE_USUARIO ]
                 ROLE_GESTOR_PRESTAMOS: [ ROLE_USUARIO ]

@@ -4,6 +4,7 @@ namespace App\Factory;
 
 use App\Entity\Persona;
 use App\Repository\PersonaRepository;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Zenstruck\Foundry\RepositoryProxy;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
@@ -28,11 +29,17 @@ use Zenstruck\Foundry\Proxy;
  */
 final class PersonaFactory extends ModelFactory
 {
-    public function __construct()
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $userPasswordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $userPasswordEncoder)
     {
         parent::__construct();
 
         // TODO inject services if required (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services)
+        $this->userPasswordEncoder = $userPasswordEncoder;
     }
 
     protected function getDefaults(): array
@@ -40,7 +47,7 @@ final class PersonaFactory extends ModelFactory
         return [
             // TODO add your default values here (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories)
             'nombreUsuario' => self::faker()->unique()->userName(),
-            'clave' => self::faker()->password(),
+            'clave' => $this->userPasswordEncoder->encodePassword(new Persona(), 'pordefecto'),
             'nombre' => self::faker()->firstName(),
             'apellidos' => self::faker()->lastName() . ' ' . self::faker()->lastName(),
             'administrador' => false,
