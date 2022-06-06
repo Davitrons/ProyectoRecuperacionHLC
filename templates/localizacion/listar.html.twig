@@ -11,7 +11,9 @@
             <th class="w-25">Código</th>
             <th class="w-25">Nombre</th>
             <th class="w-50">Descripción</th>
+            {% if is_granted('ROLE_ADMINISTRADOR') %}
             <th class="w-50"></th>
+            {%endif%}
         </tr>
         </thead>
         <tbody>
@@ -26,15 +28,19 @@
                     <td>{{ localizacion.nombre }}</td>
                 {% endif %}
                 <td>{{ localizacion.descripcion | nl2br }}</td>
+                {% if is_granted('ROLE_ADMINISTRADOR') %}
                 <td>
                     <a href="{{ path('localizacion_modificar', {'id': localizacion.id}) }}" title="Modificar Localizacion"><i class="fa fa-pencil-alt"></i></a>
                     <a href="{{ path('localizacion_eliminar', {'id': localizacion.id}) }}" title="Eliminar Localizacion"><i class="fa fa-trash-alt"></i></a>
                 </td>
+                {% endif %}
             </tr>
         {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('localizacion_nuevo') }}" class="btn btn-info"><i class="fa fa-plus"></i> Añadir nueva Localizacion</a>
+    {% if is_granted('ROLE_ADMINISTRADOR') %}
+        <a href="{{ path('localizacion_nuevo') }}" class="btn btn-info"><i class="fa fa-plus"></i> Añadir nueva Localizacion</a>
+    {% endif %}
     {% if raiz %}
         {% if raiz.padre %}
             <a href="{{ path('localizacion_listar', {'raiz': raiz.padre.id}) }}" class="btn btn-info"><i class="fa fa-arrow-left"></i> Volver a {{ raiz.padre }}</a>

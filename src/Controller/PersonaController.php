@@ -6,6 +6,7 @@ use App\Entity\Persona;
 use App\Form\ClavePersonaType;
 use App\Form\PersonaType;
 use App\Repository\PersonaRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,7 @@ class PersonaController extends AbstractController
 {
     /**
      * @Route("/persona/listar", name="persona_listar")
+     * @Security("is_granted('ROLE_USUARIO')")
      */
     public function index(PersonaRepository $personaRepository): Response
     {
@@ -27,6 +29,7 @@ class PersonaController extends AbstractController
 
     /**
      * @Route("/persona/nuevo", name="persona_nuevo")
+     * @Security("is_granted('ROLE_ADMINISTRADOR')")
      */
     public function nuevaPersona(Request $request, PersonaRepository $personaRepository) : Response
     {
@@ -50,6 +53,7 @@ class PersonaController extends AbstractController
 
     /**
      * @Route("/persona/{id}", name="persona_modificar")
+     * @Security("is_granted('ROLE_ADMINISTRADOR')")
      */
     public function modificarPersona(Request $request, PersonaRepository $personaRepository, int $id): Response{
         $persona = $personaRepository->findOneBy(array('id' => $id));
@@ -73,6 +77,7 @@ class PersonaController extends AbstractController
 
     /**
      * @Route("/persona/eliminar/{id}", name="persona_eliminar")
+     * @Security("is_granted('ROLE_ADMINISTRADOR')")
      */
     public function eliminarPersona(Request $request, PersonaRepository $personaRepository, int $id): Response{
         $persona = $personaRepository->findOneBy(array('id' => $id));
@@ -92,6 +97,7 @@ class PersonaController extends AbstractController
 
     /**
      * @Route("/clave", name="persona_clave")
+     * @Security("is_granted('ROLE_USUARIO')")
      */
     public function cambiarClavePersona(Request $request, PersonaRepository $personaRepository, UserPasswordEncoderInterface $passwordEncoder): Response{
         $form = $this->createForm(ClavePersonaType::class, $this->getUser());

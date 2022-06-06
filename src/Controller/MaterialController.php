@@ -6,6 +6,7 @@ use App\Entity\Material;
 use App\Form\MaterialType;
 use App\Repository\HistorialRepository;
 use App\Repository\MaterialRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +16,7 @@ class MaterialController extends AbstractController
 {
     /**
      * @Route("/prestamo/material", name="prestamo_material_prestado")
+     * @Security("is_granted('ROLE_USUARIO')")
      */
     public function index(MaterialRepository $materialRepository): Response
     {
@@ -26,6 +28,7 @@ class MaterialController extends AbstractController
 
     /**
      * @Route("/prestamo/listado", name="prestamo_listado_historial")
+     * @Security("is_granted('ROLE_USUARIO')")
      */
     public function listado(MaterialRepository $materialRepository): Response
     {
@@ -37,6 +40,7 @@ class MaterialController extends AbstractController
 
     /**
      * @Route("/prestamo/detalles/{material}", name="prestamo_detalle_historial")
+     * @Security("is_granted('ROLE_USUARIO')")
      */
     public function detalleHistorial(HistorialRepository $historialRepository, Material $material): Response
     {
@@ -49,6 +53,7 @@ class MaterialController extends AbstractController
 
     /**
      * @Route("/prestamo/material/nuevo", name="material_nuevo")
+     * @Security("is_granted('ROLE_GESTOR_PRESTAMOS')")
      */
     public function nuevoMaterial(Request $request, MaterialRepository $materialRepository) : Response
     {
@@ -72,6 +77,7 @@ class MaterialController extends AbstractController
 
     /**
      * @Route("/material/modificar/{id}", name="material_modificar")
+     * @Security("is_granted('ROLE_GESTOR_PRESTAMOS')")
      */
     public function modificarMaterial(Request $request, MaterialRepository $materialRepository, int $id): Response{
         $material = $materialRepository->findOneBy(array('id' => $id));
@@ -95,6 +101,7 @@ class MaterialController extends AbstractController
 
     /**
      * @Route("/material/eliminar/{id}", name="material_eliminar")
+     * @Security("is_granted('ROLE_GESTOR_PRESTAMOS')")
      */
     public function eliminarMaterial(Request $request, MaterialRepository $materialRepository, int $id): Response{
         $material = $materialRepository->findOneBy(array('id' => $id));

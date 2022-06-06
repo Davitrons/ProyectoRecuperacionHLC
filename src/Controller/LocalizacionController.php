@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Localizacion;
 use App\Form\LocalizacionType;
 use App\Repository\LocalizacionRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +15,7 @@ class LocalizacionController extends AbstractController
 {
     /**
      * @Route("/localizacion/{raiz}", name="localizacion_listar", requirements={"raiz"="\d+"})
+     * @Security("is_granted('ROLE_USUARIO')")
      */
     public function index(LocalizacionRepository $localizacionRepository, Localizacion $raiz = null): Response
     {
@@ -26,6 +28,7 @@ class LocalizacionController extends AbstractController
 
     /**
      * @Route("/localizacion/nuevo", name="localizacion_nuevo")
+     * @Security("is_granted('ROLE_ADMINISTRADOR')")
      */
     public function nuevaLocalizacion(Request $request, LocalizacionRepository $localizacionRepository) : Response
     {
@@ -49,6 +52,7 @@ class LocalizacionController extends AbstractController
 
     /**
      * @Route("/localizacion/modificar/{id}", name="localizacion_modificar")
+     * @Security("is_granted('ROLE_ADMINISTRADOR')")
      */
     public function modificarLocalizacion(Request $request, LocalizacionRepository $localizacionRepository, int $id): Response{
         $localizacion = $localizacionRepository->findOneBy(array('id' => $id));
@@ -72,6 +76,7 @@ class LocalizacionController extends AbstractController
 
     /**
      * @Route("/localizacion/eliminar/{id}", name="localizacion_eliminar")
+     * @Security("is_granted('ROLE_ADMINISTRADOR')")
      */
     public function eliminarLocalizacion(Request $request, LocalizacionRepository $localizacionRepository, int $id): Response{
         $localizacion = $localizacionRepository->findOneBy(array('id' => $id));

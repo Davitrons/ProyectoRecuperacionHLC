@@ -25,13 +25,19 @@
                 <td>{{ persona.nombreUsuario }}</td>
                 <td>{{ persona.materiales | join(', ') }}</td>
                 <td>
-                    <a href="{{ path('persona_modificar', {'id': persona.id}) }}" title="Modificar Persona"><i class="fa fa-pencil-alt"></i></a>
-                    <a href="{{ path('persona_eliminar', {'id': persona.id}) }}" title="Eliminar Persona"><i class="fa fa-trash-alt"></i></a>
-                    <a href="{{ path('persona_clave')}}" title="Cambiar Contraseña"><i class="fa fa-key"></i></a>
+                    {% if is_granted('ROLE_ADMINISTRADOR') %}
+                        <a href="{{ path('persona_modificar', {'id': persona.id}) }}" title="Modificar Persona"><i class="fa fa-pencil-alt"></i></a>
+                        <a href="{{ path('persona_eliminar', {'id': persona.id}) }}" title="Eliminar Persona"><i class="fa fa-trash-alt"></i></a>
+                    {% endif %}
+                    {% if persona.nombreUsuario is same as app.user.username or is_granted('ROLE_ADMINISTRADOR') %}
+                        <a href="{{ path('persona_clave')}}" title="Cambiar Contraseña"><i class="fa fa-key"></i></a>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    <a href="{{ path('persona_nuevo') }}" class="btn btn-info"><i class="fa fa-plus"></i> Añadir nueva Persona</a>
+    {% if is_granted('ROLE_ADMINISTRADOR') %}
+        <a href="{{ path('persona_nuevo') }}" class="btn btn-info"><i class="fa fa-plus"></i> Añadir nueva Persona</a>
+    {% endif %}
 {% endblock %}
