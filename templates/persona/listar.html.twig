@@ -30,7 +30,7 @@
                         <a href="{{ path('persona_eliminar', {'id': persona.id}) }}" title="Eliminar Persona"><i class="fa fa-trash-alt"></i></a>
                     {% endif %}
                     {% if persona.nombreUsuario is same as app.user.username or is_granted('ROLE_ADMINISTRADOR') %}
-                        <a href="{{ path('persona_clave')}}" title="Cambiar Contraseña"><i class="fa fa-key"></i></a>
+                        <a href="{{ path('persona_clave', {'id': persona.id})}}" title="Cambiar Contraseña"><i class="fa fa-key"></i></a>
                     {% endif %}
                 </td>
             </tr>

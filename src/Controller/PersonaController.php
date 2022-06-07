@@ -96,18 +96,18 @@ class PersonaController extends AbstractController
     }
 
     /**
-     * @Route("/clave", name="persona_clave")
+     * @Route("/clave/{id}", name="persona_clave")
      * @Security("is_granted('ROLE_USUARIO')")
      */
-    public function cambiarClavePersona(Request $request, PersonaRepository $personaRepository, UserPasswordEncoderInterface $passwordEncoder): Response{
-        $form = $this->createForm(ClavePersonaType::class, $this->getUser());
+    public function cambiarClavePersona(Request $request, PersonaRepository $personaRepository, UserPasswordEncoderInterface $passwordEncoder, Persona $persona): Response{
+        $form = $this->createForm(ClavePersonaType::class, $persona);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $this->getUser()->setClave(
+                $persona->setClave(
                     $passwordEncoder->encodePassword(
-                        $this->getUser(), $form->get('nuevaClave')->get('first')->getData()
+                        $persona, $form->get('nuevaClave')->get('first')->getData()
                     )
                 );
                 $personaRepository->save();
@@ -118,7 +118,7 @@ class PersonaController extends AbstractController
             }
         }
         return $this->render('persona/clave.html.twig', [
-            'persona' => $this->getUser() ,
+            'persona' => $persona ,
             'form' => $form->createView()
         ]);
     }
