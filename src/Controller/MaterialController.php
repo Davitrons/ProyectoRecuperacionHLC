@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Historial;
 use App\Entity\Material;
 use App\Form\MaterialType;
+use App\Form\PrestarType;
 use App\Repository\HistorialRepository;
 use App\Repository\MaterialRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -115,6 +117,53 @@ class MaterialController extends AbstractController
             }
         }
         return $this->render('material/eliminar.html.twig', [
+            'material' => $material
+        ]);
+    }
+
+    /**
+     * @Route("/material/prestar/{id}", name="material_prestar")
+     * @Security("is_granted('ROLE_GESTOR_PRESTAMOS')")
+     */
+    public function prestarMaterial(Request $request, MaterialRepository $materialRepository, Material $material): Response{
+        $form = $this->createForm(PrestarType::class, $material);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $material->setDisponible(false);
+                $materialRepository->save();
+                $this->addFlash('exito', 'El material se prestó con éxito');
+                return $this->redirectToRoute('prestamo_listado_historial');
+            }catch (\Exception $e){
+                $this->addFlash('error', 'No se pudo prestar el material');
+            }
+        }
+
+        return $this->render('material/prestar.html.twig', [
+            'material' => $material,
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/material/devolver/{id}", name="material_devolver")
+     * @Security("is_granted('ROLE_GESTOR_PRESTAMOS')")
+     */
+    public function devolverMaterial(Request $request, MaterialRepository $materialRepository, Material $material): Response{
+        if ($request->get('confirmar', false)) {
+            try {
+                $material->setDisponible(true);
+                $material->setPrestadoPor(null);
+                $materialRepository->save();
+                $this->addFlash('exito', 'El material se devolvio con éxito');
+                return $this->redirectToRoute('prestamo_listado_historial');
+            }catch (\Exception $e){
+                $this->addFlash('error', 'No se pudo devolver el material');
+            }
+        }
+
+        return $this->render('material/devolver.html.twig', [
             'material' => $material
         ]);
     }

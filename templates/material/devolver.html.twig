@@ -1,0 +1,18 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+    Devolviendo
+{% endblock %}
+
+{% block content %}
+    <h1>Devolviendo {{ material }}</h1>
+
+    <div class="alert alert-danger">
+        ¡Atención! Se dispone a devolver {{ material }}
+    </div>
+    <form method="post">
+        <button type="submit" name="confirmar" value="si" class="btn btn-danger"><i class="fa fa-trash-alt"></i> Devolver</button>
+        <a href="{{ path('prestamo_listado_historial') }}" class="btn btn-info"><i class="fa fa-arrow-left"></i> Volver al listado sin devolver</a>
+    </form>
+
+{% endblock %}

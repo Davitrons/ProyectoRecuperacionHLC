@@ -12,24 +12,26 @@
                 <li class="nav-item {% if route_name == 'portada' %}active{% endif %}">
                     <a class="nav-link" href="{{ path('portada') }}"><i class="fa fa-home"></i> Inicio</a>
                 </li>
-                <li class="nav-item {% if route_name starts with 'inventario' %}active{% endif %}">
-                    <a class="nav-link" href="{{ path('inventario_listar') }}"><i class="fa fa-clipboard-list"></i> Inventario</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarInventario" role="button" data-toggle="dropdown" aria-expanded="false">
-                        <i class="fa fa-gift"></i> Préstamos</a>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarInventario">
-                        <a class="dropdown-item" href="{{ path('prestamo_material_prestado') }}">Material prestado</a>
-                        <a class="dropdown-item" href="{{ path('prestamo_listado_historial') }}">Historial</a>
-                    </div>
-                </li>
-                <li class="nav-item {% if route_name starts with 'localizacion' %}active{% endif %}">
-                    <a class="nav-link" href="{{ path('localizacion_listar') }}"><i class="fa fa-grip-vertical"></i> Localizaciones</a>
-                </li>
-                <li class="nav-item {% if route_name starts with 'persona' %}active{% endif %}">
-                    <a class="nav-link" href="{{ path('persona_listar') }}"><i class="fa fa-users"></i> Personas</a>
-                </li>
+                {% if is_granted('ROLE_USUARIO') %}
+                    <li class="nav-item {% if route_name starts with 'inventario' %}active{% endif %}">
+                        <a class="nav-link" href="{{ path('inventario_listar') }}"><i class="fa fa-clipboard-list"></i> Inventario</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarInventario" role="button" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-gift"></i> Préstamos</a>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarInventario">
+                            <a class="dropdown-item" href="{{ path('prestamo_material_prestado') }}">Material prestado</a>
+                            <a class="dropdown-item" href="{{ path('prestamo_listado_historial') }}">Historial</a>
+                        </div>
+                    </li>
+                    <li class="nav-item {% if route_name starts with 'localizacion' %}active{% endif %}">
+                        <a class="nav-link" href="{{ path('localizacion_listar') }}"><i class="fa fa-grip-vertical"></i> Localizaciones</a>
+                    </li>
+                    <li class="nav-item {% if route_name starts with 'persona' %}active{% endif %}">
+                        <a class="nav-link" href="{{ path('persona_listar') }}"><i class="fa fa-users"></i> Personas</a>
+                    </li>
+                {% endif %}
                 {% if app.user %}
                     <a href="{{ path('seguridad_logout') }}" class="nav-link"><i class="fas fa-sign-out-alt"></i> Conectado como {{ app.user }}. Salir</a>
                 {% else %}

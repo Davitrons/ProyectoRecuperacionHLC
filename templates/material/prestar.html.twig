@@ -1,0 +1,16 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Prestando...{% endblock %}
+
+{% block content %}
+
+    <h1>Prestando Material {{ material }}</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Prestar Material</button>
+
+    <a href="{{ path('prestamo_listado_historial') }}" class="btn btn-info"><i class="fa fa-arrow-left"></i> Volver al listado de materiales</a>
+    {{ form_end(form) }}
+
+{% endblock %}
